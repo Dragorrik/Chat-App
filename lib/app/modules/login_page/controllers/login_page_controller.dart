@@ -9,6 +9,15 @@ class LoginPageController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final storage = GetStorage();
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+
+    emailController.text = "gg@gmail.com";
+    passwordController.text = "123456";
+  }
+
   Future<void> login() async {
     try {
       await _auth.signInWithEmailAndPassword(
