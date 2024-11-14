@@ -11,7 +11,6 @@ class LoginPageController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
 
     emailController.text = "gg@gmail.com";

@@ -7,6 +7,7 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,16 +15,24 @@ class HomeView extends GetView<HomeController> {
         title: Obx(() => Text('Welcome, ${controller.userName}')),
         centerTitle: true,
       ),
-      body: Center(
-        child: Obx(
-          () {
-            return Text(
-              controller.text.value,
-              style: TextStyle(fontSize: 20),
-            );
-          },
-        ),
-      ),
+      body: Obx(() {
+        return controller.voiceList.isEmpty
+            ? Center(
+                child: Text(
+                  "Nothing to show",
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
+            : ListView.builder(
+                itemCount: controller.voiceList.length,
+                itemBuilder: (context, index) {
+                  final voice = controller.voiceList[index];
+                  return ListTile(
+                    title: Text(voice),
+                  );
+                },
+              );
+      }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 50),
@@ -33,15 +42,14 @@ class HomeView extends GetView<HomeController> {
             glowColor: Colors.redAccent,
             child: GestureDetector(
               onTapDown: (value) {
-                controller.startRecord.value = true;
-                controller.recognizedWords();
+                controller.startRecording();
               },
               onTapUp: (value) {
-                controller.startRecord.value = false;
-                controller.speechToText.stop();
+                controller.stopRecording();
               },
               child: Container(
-                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.height * 0.1,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.redAccent,
