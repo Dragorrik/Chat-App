@@ -44,23 +44,22 @@ class HomeController extends GetxController {
 
   void startRecording() {
     if (isAvailable.value) {
-      text.value = ''; // Clear interim text
+      text.value = '';
       speechToText.listen(onResult: (value) {
-        text.value =
-            value.recognizedWords; // Update interim text as user speaks
+        text.value = value.recognizedWords;
       });
-      startRecord.value = true; // Indicate recording has started
+      startRecord.value = true;
     }
   }
 
   void stopRecording() {
     if (startRecord.value) {
       speechToText.stop();
-      startRecord.value = false; // Indicate recording has stopped
+      startRecord.value = false;
       if (text.value.isNotEmpty) {
-        voiceList.add(text.value); // Add completed sentence to list
+        voiceList.add(text.value);
       }
-      text.value = ''; // Clear interim text for next recording session
+      text.value = '';
     }
   }
 }

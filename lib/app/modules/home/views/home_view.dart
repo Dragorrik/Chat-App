@@ -2,6 +2,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:task_type_project/app/modules/login_page/controllers/login_page_controller.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -10,10 +11,19 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    //final LoginPageController loginPageController = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Obx(() => Text('Welcome, ${controller.userName}')),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              LoginPageController().signOut();
+            },
+            icon: Icon(Icons.logout_rounded),
+          ),
+        ],
       ),
       body: Obx(() {
         return controller.voiceList.isEmpty

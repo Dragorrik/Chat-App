@@ -31,4 +31,9 @@ class LoginPageController extends GetxController {
       Get.snackbar("Login Error", e.toString());
     }
   }
+
+  signOut() async {
+    await _auth.signOut();
+    Get.toNamed('/login');
+  }
 }
