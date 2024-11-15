@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_type_project/app/modules/register_page/controllers/register_page_controller.dart';
+import 'package:task_type_project/app/widgets/login_reg_widget.dart';
 
 class RegisterPageView extends GetView<RegisterPageController> {
   @override
@@ -9,19 +10,7 @@ class RegisterPageView extends GetView<RegisterPageController> {
       body: Stack(
         children: [
           // Gradient background
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.white,
-                  Colors.teal[200]!,
-                  Colors.teal[600]!,
-                ],
-              ),
-            ),
-          ),
+          LoginRegWidget.loginRegBg(),
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -30,73 +19,28 @@ class RegisterPageView extends GetView<RegisterPageController> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Register text title
-                  Text(
-                    "Register",
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+                  LoginRegWidget.loginRegTxt("Register"),
                   SizedBox(height: 40),
 
                   // Email field
-                  TextFormField(
-                    controller: controller.emailController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.8),
+                  LoginRegWidget.loginRegFormfield(
+                      controller: controller.emailController,
                       labelText: "Email",
-                      hintText: "Enter your Email",
-                      labelStyle: TextStyle(color: Colors.grey[700]),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
+                      hintText: "Enter your email"),
                   SizedBox(height: 20),
 
                   // Password field
-                  TextFormField(
-                    controller: controller.passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.8),
-                      labelText: "Password",
-                      hintText: "Enter your Password",
-                      labelStyle: TextStyle(color: Colors.grey[700]),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
+                  LoginRegWidget.loginRegFormfield(
+                      controller: controller.passwordController,
+                      labelText: "Email",
+                      hintText: "Enter your email",
+                      obscureText: true),
                   SizedBox(height: 20),
 
                   // Register button
-                  ElevatedButton(
-                    onPressed: controller.register,
-                    style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-                      backgroundColor: Colors.teal[500],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(0),
-                          bottomLeft: Radius.circular(0),
-                          bottomRight: Radius.circular(15),
-                          topLeft: Radius.circular(15),
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      "Register",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
-                  ),
+                  LoginRegWidget.loginRegElevatedButton("Register", () {
+                    controller.register();
+                  }),
                 ],
               ),
             ),
