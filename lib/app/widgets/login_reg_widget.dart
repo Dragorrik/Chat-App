@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_type_project/app/styles/text_styles.dart';
 
 class LoginRegWidget {
@@ -65,6 +66,16 @@ class LoginRegWidget {
       ),
       child: Text(
         txt,
+        style: TextStyle(fontSize: 16, color: Colors.white),
+      ),
+    );
+  }
+
+  static Widget createAccountTxt() {
+    return TextButton(
+      onPressed: () => Get.toNamed('/register'),
+      child: Text(
+        "Create an Account",
         style: TextStyle(fontSize: 16, color: Colors.white),
       ),
     );

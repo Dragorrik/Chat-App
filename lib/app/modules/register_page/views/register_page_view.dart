@@ -32,8 +32,8 @@ class RegisterPageView extends GetView<RegisterPageController> {
                   // Password field
                   LoginRegWidget.loginRegFormfield(
                       controller: controller.passwordController,
-                      labelText: "Email",
-                      hintText: "Enter your email",
+                      labelText: "Password",
+                      hintText: "Create your password",
                       obscureText: true),
                   SizedBox(height: 20),
 

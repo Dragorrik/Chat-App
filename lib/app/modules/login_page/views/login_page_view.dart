@@ -32,8 +32,8 @@ class LoginPageView extends GetView<LoginPageController> {
                   // Password field
                   LoginRegWidget.loginRegFormfield(
                       controller: controller.passwordController,
-                      labelText: "Email",
-                      hintText: "Enter your email",
+                      labelText: "Password",
+                      hintText: "Enter your password",
                       obscureText: true),
                   SizedBox(height: 20),
 
@@ -42,13 +42,7 @@ class LoginPageView extends GetView<LoginPageController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Create an Account button
-                      TextButton(
-                        onPressed: () => Get.toNamed('/register'),
-                        child: Text(
-                          "Create an Account",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                      ),
+                      LoginRegWidget.createAccountTxt(),
 
                       // Sign In button
                       LoginRegWidget.loginRegElevatedButton("Sign in", () {
