@@ -7,6 +7,16 @@ class RegisterPageController extends GetxController {
   final passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  final obscurePassword = ValueNotifier<bool>(true); // Define here
+
+  @override
+  void onClose() {
+    emailController.dispose(); // Dispose email controller
+    passwordController.dispose(); // Dispose password controller
+    obscurePassword.dispose(); // Dispose ValueNotifier
+    super.onClose();
+  }
+
   Future<void> register() async {
     try {
       await _auth.createUserWithEmailAndPassword(

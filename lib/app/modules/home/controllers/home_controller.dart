@@ -10,6 +10,7 @@ class HomeController extends GetxController {
   RxBool isAvailable = false.obs;
   var text = "".obs;
   var voiceList = [].obs;
+  final isSearchActive = false.obs;
 
   @override
   void onInit() {

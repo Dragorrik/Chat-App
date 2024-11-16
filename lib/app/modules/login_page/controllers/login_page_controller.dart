@@ -9,6 +9,16 @@ class LoginPageController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final storage = GetStorage();
 
+  final obscurePassword = ValueNotifier<bool>(true); // Define here
+
+  @override
+  void onClose() {
+    emailController.dispose(); // Dispose email controller
+    passwordController.dispose(); // Dispose password controller
+    obscurePassword.dispose(); // Dispose ValueNotifier
+    super.onClose();
+  }
+
   @override
   void onInit() {
     super.onInit();

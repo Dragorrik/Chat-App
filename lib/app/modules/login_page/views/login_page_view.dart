@@ -4,6 +4,7 @@ import 'package:task_type_project/app/widgets/login_reg_widget.dart';
 import '../controllers/login_page_controller.dart';
 
 class LoginPageView extends GetView<LoginPageController> {
+  //final ValueNotifier<bool> obscurePassword = ValueNotifier<bool>(true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,18 +24,19 @@ class LoginPageView extends GetView<LoginPageController> {
                   SizedBox(height: 40),
 
                   // Username / Email field
-                  LoginRegWidget.loginRegFormfield(
-                      controller: controller.emailController,
-                      labelText: "Email",
-                      hintText: "Enter your email"),
+                  LoginRegWidget.loginRegEmailFormfield(
+                    controller: controller.emailController,
+                    labelText: "Email",
+                    hintText: "Enter your email",
+                  ),
                   SizedBox(height: 20),
 
                   // Password field
-                  LoginRegWidget.loginRegFormfield(
+                  LoginRegWidget.loginRegPassFormfield(
                       controller: controller.passwordController,
                       labelText: "Password",
                       hintText: "Enter your password",
-                      obscureText: true),
+                      obscureTextNotifier: controller.obscurePassword),
                   SizedBox(height: 20),
 
                   // "Create an Account" and "Sign In" row
@@ -45,7 +47,7 @@ class LoginPageView extends GetView<LoginPageController> {
                       LoginRegWidget.createAccountTxt(),
 
                       // Sign In button
-                      LoginRegWidget.loginRegElevatedButton("Sign in", () {
+                      LoginRegWidget.loginRegButton("Sign in", () {
                         controller.login();
                       }),
                     ],
