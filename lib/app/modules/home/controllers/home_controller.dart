@@ -16,7 +16,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _loadUserName();
-    speechInitialize();
+    //speechInitialize();
   }
 
   void _loadUserName() {
@@ -24,9 +24,9 @@ class HomeController extends GetxController {
     userName.value = email.split('@').first;
   }
 
-  void speechInitialize() async {
-    isAvailable.value = await speechToText.initialize();
-  }
+  // void speechInitialize() async {
+  //   isAvailable.value = await speechToText.initialize();
+  // }
 
   // void recognizedWords() {
   //   if (isAvailable.value) {

@@ -8,11 +8,16 @@ class StartupController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.delayed(Duration.zero, _checkAuthentication);
+    _checkAuthentication();
   }
 
-  void _checkAuthentication() {
+  void _checkAuthentication() async {
+    // Simulate loading delay if needed (e.g., for API calls or heavy logic)
+    await Future.delayed(Duration(seconds: 1));
+
     final isLoggedIn = storage.read('isLoggedIn') ?? false;
+
+    // Navigate to the appropriate page
     if (isLoggedIn) {
       Get.offNamed(Routes.HOME);
     } else {

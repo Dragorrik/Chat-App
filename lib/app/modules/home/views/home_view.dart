@@ -1,15 +1,18 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:task_type_project/app/modules/login_page/controllers/login_page_controller.dart';
 import 'package:task_type_project/app/modules/theme_controller.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
-
+  HomeView({super.key});
+  final ThemeController themeController = Get.find();
   // @override
   // Widget build(BuildContext context) {
   //   //final LoginPageController loginPageController = Get.find();
@@ -84,45 +87,107 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         //backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          "SomeApp",
-          style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "SomeApp",
+              style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              controller.userName.value,
+              style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(),
+          ],
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.search, color: Colors.black54),
-            onPressed: () {
-              controller.isSearchActive.value =
-                  !controller.isSearchActive.value;
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.camera_alt_outlined, color: Colors.black54),
-            onPressed: () {},
-          ),
-          // IconButton(
-          //   icon: Icon(Icons.more_vert, color: Colors.black54),
-          //   onPressed: () {},
-          // ),
-          PopupMenuButton(
-            icon: Icon(Icons.more_vert, color: Colors.black54),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Dark Theme'),
-                    Obx(() => Switch(
-                          value: ThemeController().isDarkTheme.value,
-                          onChanged: (value) {
-                            ThemeController().toggleTheme(value);
-                            Navigator.pop(context); // Close the menu
-                          },
-                        )),
+          Obx(
+            () => Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.search,
+                      color: themeController.isDarkTheme.value
+                          ? Colors.white
+                          : Colors.black54),
+                  onPressed: () {
+                    controller.isSearchActive.value =
+                        !controller.isSearchActive.value;
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.camera_alt_outlined,
+                      color: themeController.isDarkTheme.value
+                          ? Colors.white
+                          : Colors.black54),
+                  onPressed: () async {
+                    final ImagePicker picker = ImagePicker();
+
+                    // Capture image from the camera
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.camera);
+
+                    if (image != null) {
+                      // Save the image to local storage
+                      final Directory appDir =
+                          await getApplicationDocumentsDirectory();
+                      final String savePath =
+                          '${appDir.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+                      await image.saveTo(savePath);
+
+                      // Show confirmation
+                      Get.snackbar(
+                        "Image Saved",
+                        "Your image has been saved to: $savePath",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } else {
+                      // No image captured
+                      Get.snackbar(
+                        "No Image",
+                        "You did not capture any image.",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
+                  },
+                ),
+                PopupMenuButton(
+                  icon: Icon(Icons.more_vert,
+                      color: themeController.isDarkTheme.value
+                          ? Colors.white
+                          : Colors.black54),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Dark Theme'),
+                              Obx(
+                                () => Switch(
+                                  value: themeController.isDarkTheme.value,
+                                  onChanged: (value) {
+                                    themeController.toggleTheme(value);
+                                    Navigator.pop(context); // Close the menu
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          InkWell(
+                              onTap: () {
+                                LoginPageController().signOut();
+                              },
+                              child: Icon(Icons.logout_outlined)),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
@@ -152,19 +217,21 @@ class HomeView extends GetView<HomeController> {
           // Tab bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _buildTab("All", true, context),
-                SizedBox(
-                  width: 10,
-                ),
-                _buildTab("Unread", false, context),
-                SizedBox(
-                  width: 10,
-                ),
-                _buildTab("Groups", false, context),
-              ],
+            child: Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _buildTab("All", true, context),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  _buildTab("Unread", false, context),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  _buildTab("Groups", false, context),
+                ],
+              ),
             ),
           ),
 
@@ -237,11 +304,13 @@ class HomeView extends GetView<HomeController> {
   // Helper widget to build a tab
   Widget _buildTab(String text, bool isActive, BuildContext context) {
     return Container(
-      // height: MediaQuery.of(context).size.height * 0.03,
-      // width: MediaQuery.of(context).size.width * 0.2,
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0.0),
       decoration: BoxDecoration(
-        color: isActive ? Colors.teal[200] : Colors.grey[200],
+        color: isActive
+            ? Colors.teal[200]
+            : themeController.isDarkTheme.value
+                ? Colors.grey
+                : Colors.grey[200],
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
@@ -250,6 +319,8 @@ class HomeView extends GetView<HomeController> {
         style: TextStyle(
           fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
           fontSize: 16,
+          color:
+              themeController.isDarkTheme.value ? Colors.white : Colors.black,
         ),
       ),
     );
