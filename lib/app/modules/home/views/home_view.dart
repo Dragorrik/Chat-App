@@ -13,6 +13,8 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   HomeView({super.key});
   final ThemeController themeController = Get.find();
+  final LoginPageController loginPageController =
+      Get.put(LoginPageController());
   // @override
   // Widget build(BuildContext context) {
   //   //final LoginPageController loginPageController = Get.find();
@@ -178,7 +180,7 @@ class HomeView extends GetView<HomeController> {
                           ),
                           InkWell(
                               onTap: () {
-                                LoginPageController().signOut();
+                                loginPageController.signOut();
                               },
                               child: Icon(Icons.logout_outlined)),
                         ],
@@ -236,24 +238,27 @@ class HomeView extends GetView<HomeController> {
           ),
 
           // Chat list
-          Expanded(
-            child: Obx(() {
-              if (controller.userList.isEmpty) {
-                return Center(child: Text("No users available."));
-              }
-
-              return ListView.builder(
-                itemCount: controller.userList.length,
+          Obx(
+            () => Expanded(
+              child: ListView.builder(
+                itemCount: controller
+                    .userList.length, // List of all users from Firestore
                 itemBuilder: (context, index) {
                   final user = controller.userList[index];
-                  return _buildChatItem(
-                    avatarUrl:
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(
                         "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png",
-                    name: user['email'], // Display user email
+                      ),
+                    ),
+                    title: Text(user['email']),
+                    onTap: () {
+                      Get.toNamed('/chat', arguments: user['email']);
+                    },
                   );
                 },
-              );
-            }),
+              ),
+            ),
           ),
         ],
       ),

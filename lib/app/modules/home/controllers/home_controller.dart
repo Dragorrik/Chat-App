@@ -53,7 +53,11 @@ class HomeController extends GetxController {
   void fetchUsers() async {
     try {
       final currentUser = _auth.currentUser;
-      if (currentUser == null) return;
+      if (currentUser == null) {
+        print("NULL USER");
+        return;
+      }
+      ;
 
       final snapshot = await _firestore.collection('users').get();
 

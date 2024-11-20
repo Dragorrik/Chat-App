@@ -1,14 +1,18 @@
-//import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_type_project/app/modules/register_page/views/register_page_view.dart';
-import 'package:task_type_project/app/modules/startup_binding.dart';
-import 'package:task_type_project/app/modules/startup_screen.dart';
 
+import '../modules/chat/bindings/chat_binding.dart';
+import '../modules/chat/views/chat_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login_page/bindings/login_page_binding.dart';
 import '../modules/login_page/views/login_page_view.dart';
 import '../modules/register_page/bindings/register_page_binding.dart';
+import '../modules/register_page/views/register_page_view.dart';
+import '../modules/startup_binding.dart';
+import '../modules/startup_screen.dart';
+
+//import 'package:flutter/material.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -36,6 +40,11 @@ class AppPages {
       name: _Paths.REGISTER_PAGE,
       page: () => RegisterPageView(),
       binding: RegisterPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHAT,
+      page: () => ChatView(),
+      binding: ChatBinding(),
     ),
   ];
 }
