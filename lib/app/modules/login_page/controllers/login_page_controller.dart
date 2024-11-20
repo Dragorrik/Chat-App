@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,15 +8,16 @@ class LoginPageController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = GetStorage();
 
   final obscurePassword = ValueNotifier<bool>(true); // Define here
 
   @override
   void onClose() {
-    emailController.dispose(); // Dispose email controller
-    passwordController.dispose(); // Dispose password controller
-    obscurePassword.dispose(); // Dispose ValueNotifier
+    // emailController.dispose(); // Dispose email controller
+    // passwordController.dispose(); // Dispose password controller
+    // obscurePassword.dispose(); // Dispose ValueNotifier
     super.onClose();
   }
 
@@ -23,23 +25,38 @@ class LoginPageController extends GetxController {
   void onInit() {
     super.onInit();
 
-    emailController.text = "gg@gmail.com";
-    passwordController.text = "123456";
+    // emailController.text = "gg@gmail.com";
+    // passwordController.text = "123456";
   }
 
-  Future<void> login() async {
+  Future<User?> login() async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
-      storage.write(
-          'userEmail', emailController.text); // Save email when logging in
-      storage.write('isLoggedIn', true); // Save login status
-      Get.offAllNamed('/home');
+      final user = userCredential.user;
+      if (user != null) {
+        // Ensure user exists in Firestore
+        final docRef = _firestore.collection('users').doc(user.uid);
+        final doc = await docRef.get();
+
+        if (!doc.exists) {
+          await docRef.set({
+            'uid': user.uid,
+            'email': user.email,
+          });
+        }
+        storage.write(
+            'userEmail', emailController.text); // Save email when logging in
+        storage.write('isLoggedIn', true); // Save login status
+        Get.offAllNamed('/home');
+      }
+      return user;
     } catch (e) {
-      Get.snackbar("Login Error", e.toString());
+      Get.snackbar("Login failed", e.toString());
     }
+    return null;
   }
 
   signOut() async {

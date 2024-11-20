@@ -237,18 +237,23 @@ class HomeView extends GetView<HomeController> {
 
           // Chat list
           Expanded(
-            child: ListView.builder(
-              itemCount: 10, // Replace with dynamic data length
-              itemBuilder: (context, index) {
-                return _buildChatItem(
-                  avatarUrl:
-                      "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png",
-                  name: "Contact ${index + 1}",
-                  message: "Last message preview here...",
-                  time: "9:15 AM",
-                );
-              },
-            ),
+            child: Obx(() {
+              if (controller.userList.isEmpty) {
+                return Center(child: Text("No users available."));
+              }
+
+              return ListView.builder(
+                itemCount: controller.userList.length,
+                itemBuilder: (context, index) {
+                  final user = controller.userList[index];
+                  return _buildChatItem(
+                    avatarUrl:
+                        "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png",
+                    name: user['email'], // Display user email
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
@@ -279,8 +284,8 @@ class HomeView extends GetView<HomeController> {
   Widget _buildChatItem({
     required String avatarUrl,
     required String name,
-    required String message,
-    required String time,
+    // required String message,
+    // required String time,
   }) {
     return ListTile(
       leading: CircleAvatar(
@@ -293,11 +298,11 @@ class HomeView extends GetView<HomeController> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      subtitle: Text(message),
-      trailing: Text(
-        time,
-        style: TextStyle(fontSize: 12, color: Colors.grey),
-      ),
+      // subtitle: Text(message),
+      // trailing: Text(
+      //   time,
+      //   style: TextStyle(fontSize: 12, color: Colors.grey),
+      // ),
     );
   }
 
