@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:task_type_project/app/modules/login_page/controllers/login_page_controller.dart';
+import 'package:task_type_project/app/modules/register_page/controllers/register_page_controller.dart';
 import 'package:task_type_project/app/modules/theme_controller.dart';
-
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -15,6 +15,8 @@ class HomeView extends GetView<HomeController> {
   final ThemeController themeController = Get.find();
   final LoginPageController loginPageController =
       Get.put(LoginPageController());
+  final RegisterPageController registerPageController =
+      Get.put(RegisterPageController());
   // @override
   // Widget build(BuildContext context) {
   //   //final LoginPageController loginPageController = Get.find();
@@ -86,19 +88,33 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.teal[100],
       appBar: AppBar(
-        //backgroundColor: Colors.white,
+        backgroundColor: Colors.teal[100],
         elevation: 0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "SomeApp",
-              style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              controller.userName.value,
-              style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+            // Text(
+            //   "Chatitide",
+            //   style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+            // ),
+            Obx(
+              () => Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  controller.userName.value.split(' ').first,
+                  style: TextStyle(
+                    color: Colors.white,
+                    //fontWeight: FontWeight.bold,
+                    //fontSize: 15,
+                  ),
+                ),
+              ),
             ),
             SizedBox(),
           ],
@@ -193,72 +209,113 @@ class HomeView extends GetView<HomeController> {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // Search bar
-          Obx(
-            () => controller.isSearchActive.value
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Search",
-                        prefixIcon: Icon(Icons.search, color: Colors.black54),
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
+          // Stack(
+          //   children: [
+          //     LoginRegWidget.loginRegBg(), // Your existing background
+          //     Positioned.fill(
+          //       child: BackdropFilter(
+          //         filter: ImageFilter.blur(
+          //             sigmaX: 10, sigmaY: 10), // Adjust the blur intensity
+          //         child: Container(
+          //           color: Colors.black.withOpacity(
+          //               0.3), // Optional: add a semi-transparent overlay
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          Column(
+            children: [
+              // Search bar
+              Obx(
+                () => controller.isSearchActive.value
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Search",
+                            prefixIcon:
+                                Icon(Icons.search, color: Colors.black54),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
-                : Container(),
-          ),
-          // Tab bar
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _buildTab("All", true, context),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  _buildTab("Unread", false, context),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  _buildTab("Groups", false, context),
-                ],
+                      )
+                    : Container(),
               ),
-            ),
-          ),
+              // Tab bar
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              //   child: Obx(
+              //     () => Row(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       children: [
+              //         _buildTab("All", true, context),
+              //         SizedBox(
+              //           width: 10,
+              //         ),
+              //         _buildTab("Unread", false, context),
+              //         SizedBox(
+              //           width: 10,
+              //         ),
+              //         _buildTab("Groups", false, context),
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
-          // Chat list
-          Obx(
-            () => Expanded(
-              child: ListView.builder(
-                itemCount: controller
-                    .userList.length, // List of all users from Firestore
-                itemBuilder: (context, index) {
-                  final user = controller.userList[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png",
-                      ),
-                    ),
-                    title: Text(user['email']),
-                    onTap: () {
-                      Get.toNamed('/chat', arguments: user['email']);
+              // Chat list
+              Obx(
+                () => Expanded(
+                  child: ListView.builder(
+                    itemCount: controller
+                        .userList.length, // List of all users from Firestore
+                    itemBuilder: (context, index) {
+                      final user = controller.userList[index];
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.teal,
+                        ),
+                        title: Container(
+                          padding: EdgeInsets.all(7),
+                          height: MediaQuery.of(context).size.height * 0.076,
+                          decoration: BoxDecoration(
+                            color: Colors.teal,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: 2,
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: Text(
+                            user['userName'],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                        subtitle: Text(
+                          user['email'],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+                          Get.toNamed('/chat', arguments: {
+                            'uid': user['uid'],
+                            'userName': user['userName'] ?? "Unknown User",
+                            'email': user['email'],
+                          });
+                        },
+                      );
                     },
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -271,17 +328,17 @@ class HomeView extends GetView<HomeController> {
       // ),
 
       // Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chats"),
-          BottomNavigationBarItem(icon: Icon(Icons.update), label: "Updates"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.groups), label: "Communities"),
-          BottomNavigationBarItem(icon: Icon(Icons.call), label: "Calls"),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   selectedItemColor: Colors.teal,
+      //   unselectedItemColor: Colors.grey,
+      //   items: const [
+      //     BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Chats"),
+      //     BottomNavigationBarItem(icon: Icon(Icons.update), label: "Updates"),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.groups), label: "Communities"),
+      //     BottomNavigationBarItem(icon: Icon(Icons.call), label: "Calls"),
+      //   ],
+      // ),
     );
   }
 

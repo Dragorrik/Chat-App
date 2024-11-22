@@ -1,17 +1,31 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_type_project/app/widgets/login_reg_widget.dart';
 import '../controllers/login_page_controller.dart';
 
 class LoginPageView extends GetView<LoginPageController> {
-  //final ValueNotifier<bool> obscurePassword = ValueNotifier<bool>(true);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          // Gradient background
-          LoginRegWidget.loginRegBg(),
+          // Gradient background with blur
+          Stack(
+            children: [
+              LoginRegWidget.loginRegBg(), // Your existing background
+              Positioned.fill(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                      sigmaX: 10, sigmaY: 10), // Adjust the blur intensity
+                  child: Container(
+                    color: Colors.black.withOpacity(
+                        0.3), // Optional: add a semi-transparent overlay
+                  ),
+                ),
+              ),
+            ],
+          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -20,7 +34,7 @@ class LoginPageView extends GetView<LoginPageController> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Login text title
-                  LoginRegWidget.loginRegTxt("Login"),
+                  LoginRegWidget.loginRegTxt("L o g i n"),
                   SizedBox(height: 40),
 
                   // Username / Email field

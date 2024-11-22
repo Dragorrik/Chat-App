@@ -43,3 +43,22 @@ class PrimaryButton extends StatelessWidget {
     );
   }
 }
+
+ // void speechInitialize() async {
+  //   isAvailable.value = await speechToText.initialize();
+  // }
+
+  // void recognizedWords() {
+  //   if (isAvailable.value) {
+  //     speechToText.listen(onResult: (value) {
+  //       text.value = value.recognizedWords;
+
+  //       // Update the last entry in the voiceList or add the first one
+  //       if (voiceList.isEmpty) {
+  //         voiceList.add(text.value); // Add the initial recognized sentence
+  //       } else {
+  //         voiceList[voiceList.length - 1] = text.value; // Continuously update
+  //       }
+  //     });
+  //   }
+  // }

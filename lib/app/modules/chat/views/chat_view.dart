@@ -3,38 +3,70 @@ import 'package:get/get.dart';
 import 'package:task_type_project/app/modules/chat/controllers/chat_controller.dart';
 
 class ChatView extends GetView<ChatController> {
-  //final ChatPageController controller = Get.put(ChatPageController());
+  final TextEditingController messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final messageController = TextEditingController();
-
     return Scaffold(
+      backgroundColor: Colors.teal[100],
       appBar: AppBar(
-        title: Text('Chat with ${controller.chatUser}'),
+        title: Text(
+          controller.userName.isEmpty ? "Chat" : controller.userName,
+          style: const TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.teal[600],
       ),
       body: Column(
         children: [
+          // Chat Messages
           Expanded(
             child: Obx(() {
+              if (controller.messages.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No messages yet.",
+                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                  ),
+                );
+              }
+
               return ListView.builder(
                 itemCount: controller.messages.length,
                 itemBuilder: (context, index) {
-                  final message = controller.messages[index].data();
-                  final isMine = message['sender'] == controller.currentUser;
+                  final messageData = controller.messages[index].data();
+                  final isMine =
+                      messageData['sender'] == controller.currentUser;
+
                   return Align(
                     alignment:
                         isMine ? Alignment.centerRight : Alignment.centerLeft,
                     child: Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      padding: const EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
-                        color: isMine ? Colors.blue : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(10),
+                        color: isMine ? Colors.teal[600] : Colors.grey[300],
+                        borderRadius: isMine
+                            ? const BorderRadius.only(
+                                topLeft: Radius.circular(15),
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                              )
+                            : const BorderRadius.only(
+                                topRight: Radius.circular(15),
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                              ),
+                        border: Border.all(
+                          width: 1.5,
+                          color: isMine ? Colors.white : Colors.grey[700]!,
+                        ),
                       ),
                       child: Text(
-                        message['text'],
+                        messageData['text'] ?? "",
                         style: TextStyle(
+                            fontSize: 16,
                             color: isMine ? Colors.white : Colors.black),
                       ),
                     ),
@@ -43,6 +75,7 @@ class ChatView extends GetView<ChatController> {
               );
             }),
           ),
+          // Message Input
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -52,18 +85,24 @@ class ChatView extends GetView<ChatController> {
                     controller: messageController,
                     decoration: InputDecoration(
                       hintText: "Type a message",
+                      filled: true,
+                      fillColor: Colors.white,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
                       ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send, color: Colors.blue),
+                  icon: const Icon(Icons.send, color: Colors.teal),
                   onPressed: () {
-                    controller.sendMessage(messageController.text);
-                    messageController.clear();
-                    //messageController.dispose();
+                    if (messageController.text.trim().isNotEmpty) {
+                      controller.sendMessage(messageController.text.trim());
+                      messageController.clear();
+                    }
                   },
                 ),
               ],

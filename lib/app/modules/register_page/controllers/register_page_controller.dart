@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class RegisterPageController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -31,6 +32,7 @@ class RegisterPageController extends GetxController {
         await _firestore.collection('users').doc(user.uid).set({
           'uid': user.uid,
           'email': user.email,
+          'userName': nameController.text,
         });
       }
       Get.snackbar("Registration Successful", "Please log in to continue.");

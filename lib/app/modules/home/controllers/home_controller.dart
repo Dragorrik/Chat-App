@@ -21,50 +21,64 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadUserName();
-    //speechInitialize();
+    _loadCurrentUserName();
     fetchUsers();
+    updateMissingUserNames();
   }
 
-  void _loadUserName() {
+  void _loadCurrentUserName() async {
     final email = storage.read('userEmail') ?? '';
-    userName.value = email.split('@').first;
+    final currentUser = _auth.currentUser;
+
+    if (currentUser != null) {
+      final userDoc =
+          await _firestore.collection('users').doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        userName.value = userDoc.data()?['userName'] ?? email.split('@').first;
+      }
+    } else {
+      userName.value = email.split('@').first;
+    }
+    print(userName.value);
   }
 
-  // void speechInitialize() async {
-  //   isAvailable.value = await speechToText.initialize();
-  // }
-
-  // void recognizedWords() {
-  //   if (isAvailable.value) {
-  //     speechToText.listen(onResult: (value) {
-  //       text.value = value.recognizedWords;
-
-  //       // Update the last entry in the voiceList or add the first one
-  //       if (voiceList.isEmpty) {
-  //         voiceList.add(text.value); // Add the initial recognized sentence
-  //       } else {
-  //         voiceList[voiceList.length - 1] = text.value; // Continuously update
-  //       }
-  //     });
-  //   }
-  // }
+  void updateMissingUserNames() async {
+    try {
+      final querySnapshot = await _firestore.collection('users').get();
+      for (final doc in querySnapshot.docs) {
+        if (!doc.data().containsKey('userName') || doc['userName'] == null) {
+          await _firestore.collection('users').doc(doc.id).update({
+            'userName': doc['email'].split('@')[0], // Default to email username
+          });
+        }
+      }
+      print("All missing userNames have been updated.");
+    } catch (e) {
+      print("Error updating missing userNames: $e");
+    }
+  }
 
   void fetchUsers() async {
     try {
       final currentUser = _auth.currentUser;
       if (currentUser == null) {
-        print("NULL USER");
+        print("No current user logged in.");
         return;
       }
-      ;
 
       final snapshot = await _firestore.collection('users').get();
 
-      // Filter out the current user
+      // Filter out the current user and include userName
       final users = snapshot.docs
-          .map((doc) => doc.data())
-          .where((data) => data['uid'] != currentUser.uid)
+          .map((doc) {
+            final data = doc.data();
+            return {
+              'uid': data['uid'],
+              'email': data['email'],
+              'userName': data['userName'] ?? data['email'].split('@').first,
+            };
+          })
+          .where((user) => user['uid'] != currentUser.uid)
           .toList();
 
       userList.value = users.cast<Map<String, dynamic>>();

@@ -94,7 +94,7 @@ class LoginRegWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.teal[500],
+          color: Colors.teal[400],
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(0),
             bottomLeft: Radius.circular(0),

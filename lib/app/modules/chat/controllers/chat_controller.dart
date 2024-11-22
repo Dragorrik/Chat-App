@@ -7,18 +7,30 @@ class ChatController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   late String currentUser;
+  late String currentUserId; // Use uid for unique identification
   late String chatUser;
+  late String chatUserId;
   late String chatId;
+  late String userName;
+
   RxList<QueryDocumentSnapshot<Map<String, dynamic>>> messages = RxList();
 
   @override
   void onInit() {
     super.onInit();
-    currentUser = _auth.currentUser!.email!;
-    chatUser = Get.arguments; // Email of the user to chat with
 
-    // Generate chat ID by combining user emails in a sorted manner
-    final ids = [currentUser, chatUser]..sort();
+    final args = Get.arguments as Map<String, dynamic>;
+
+    // Fetch userName and chatUser details from arguments
+    userName = args['userName'] ?? "Unknown User";
+    currentUser = _auth.currentUser?.email ?? "unknown@example.com";
+    currentUserId =
+        _auth.currentUser?.uid ?? "unknown_user"; // Get current user's UID
+    chatUser = args['email'] ?? "unknown@example.com";
+    chatUserId = args['uid'] ?? "unknown_user"; // Ensure chatUser UID is passed
+
+    // Generate chat ID by combining user UIDs in a sorted manner
+    final ids = [currentUserId, chatUserId]..sort();
     chatId = ids.join('-');
 
     // Listen for messages in the chat
@@ -29,27 +41,35 @@ class ChatController extends GetxController {
         .orderBy('timestamp', descending: false)
         .snapshots()
         .listen((snapshot) {
-      messages.value = snapshot.docs;
+      messages.value =
+          snapshot.docs; // Update messages list with document snapshots
     });
   }
 
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
-    await _firestore
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages')
-        .add({
-      'sender': currentUser,
-      'text': text.trim(),
-      'timestamp': FieldValue.serverTimestamp(),
-    });
+    try {
+      // Add message to Firestore
+      await _firestore
+          .collection('chats')
+          .doc(chatId)
+          .collection('messages')
+          .add({
+        'sender': currentUser,
+        'text': text.trim(),
+        'timestamp': FieldValue.serverTimestamp(),
+      });
 
-    // Ensure chat metadata is updated
-    await _firestore.collection('chats').doc(chatId).set({
-      'user1': currentUser,
-      'user2': chatUser,
-    }, SetOptions(merge: true));
+      // Update metadata for the chat
+      await _firestore.collection('chats').doc(chatId).set({
+        'user1': currentUser,
+        'user2': chatUser,
+        'lastMessage': text.trim(),
+        'lastUpdated': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to send message: $e');
+    }
   }
 }
