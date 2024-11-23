@@ -127,7 +127,7 @@ class HomeView extends GetView<HomeController> {
                   icon: Icon(Icons.search,
                       color: themeController.isDarkTheme.value
                           ? Colors.white
-                          : Colors.black54),
+                          : Colors.white),
                   onPressed: () {
                     controller.isSearchActive.value =
                         !controller.isSearchActive.value;
@@ -137,7 +137,7 @@ class HomeView extends GetView<HomeController> {
                   icon: Icon(Icons.camera_alt_outlined,
                       color: themeController.isDarkTheme.value
                           ? Colors.white
-                          : Colors.black54),
+                          : Colors.white),
                   onPressed: () async {
                     final ImagePicker picker = ImagePicker();
 
@@ -173,7 +173,7 @@ class HomeView extends GetView<HomeController> {
                   icon: Icon(Icons.more_vert,
                       color: themeController.isDarkTheme.value
                           ? Colors.white
-                          : Colors.black54),
+                          : Colors.white),
                   itemBuilder: (context) => [
                     PopupMenuItem(
                       child: Column(
