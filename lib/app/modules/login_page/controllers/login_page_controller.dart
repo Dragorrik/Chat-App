@@ -50,7 +50,7 @@ class LoginPageController extends GetxController {
         storage.write(
             'userEmail', emailController.text); // Save email when logging in
         storage.write('isLoggedIn', true); // Save login status
-        Get.offAllNamed('/home');
+        //Get.offAllNamed('/home');
       }
       return user;
     } catch (e) {

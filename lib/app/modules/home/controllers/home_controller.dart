@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeController extends GetxController {
@@ -17,13 +19,20 @@ class HomeController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   RxList<Map<String, dynamic>> userList = <Map<String, dynamic>>[].obs;
+  late Box profileImageBox;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    await _initHive();
     _loadCurrentUserName();
     fetchUsers();
-    updateMissingUserNames();
+  }
+
+  Future<void> _initHive() async {
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    profileImageBox = await Hive.openBox('profileImages');
   }
 
   void _loadCurrentUserName() async {
@@ -39,43 +48,28 @@ class HomeController extends GetxController {
     } else {
       userName.value = email.split('@').first;
     }
-    print(userName.value);
-  }
-
-  void updateMissingUserNames() async {
-    try {
-      final querySnapshot = await _firestore.collection('users').get();
-      for (final doc in querySnapshot.docs) {
-        if (!doc.data().containsKey('userName') || doc['userName'] == null) {
-          await _firestore.collection('users').doc(doc.id).update({
-            'userName': doc['email'].split('@')[0], // Default to email username
-          });
-        }
-      }
-      print("All missing userNames have been updated.");
-    } catch (e) {
-      print("Error updating missing userNames: $e");
-    }
   }
 
   void fetchUsers() async {
     try {
       final currentUser = _auth.currentUser;
-      if (currentUser == null) {
-        print("No current user logged in.");
-        return;
-      }
+      if (currentUser == null) return;
 
       final snapshot = await _firestore.collection('users').get();
 
-      // Filter out the current user and include userName
       final users = snapshot.docs
           .map((doc) {
             final data = doc.data();
+            final uid = data['uid'];
+
+            // Get profile image from Hive
+            final profileImage = getProfileImage(uid);
+
             return {
-              'uid': data['uid'],
+              'uid': uid,
               'email': data['email'],
               'userName': data['userName'] ?? data['email'].split('@').first,
+              'profileImage': profileImage, // Get the locally stored image
             };
           })
           .where((user) => user['uid'] != currentUser.uid)
@@ -87,24 +81,12 @@ class HomeController extends GetxController {
     }
   }
 
-  void startRecording() {
-    if (isAvailable.value) {
-      text.value = '';
-      speechToText.listen(onResult: (value) {
-        text.value = value.recognizedWords;
-      });
-      startRecord.value = true;
-    }
+  Future<void> saveProfileImage(String uid, String imagePath) async {
+    await profileImageBox.put(uid, imagePath);
+    fetchUsers(); // Refresh user list to reflect updated images
   }
 
-  void stopRecording() {
-    if (startRecord.value) {
-      speechToText.stop();
-      startRecord.value = false;
-      if (text.value.isNotEmpty) {
-        voiceList.add(text.value);
-      }
-      text.value = '';
-    }
+  String? getProfileImage(String uid) {
+    return profileImageBox.get(uid);
   }
 }

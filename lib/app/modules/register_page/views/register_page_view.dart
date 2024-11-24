@@ -1,13 +1,11 @@
+import 'dart:io';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_type_project/app/modules/register_page/controllers/register_page_controller.dart';
 import 'package:task_type_project/app/widgets/login_reg_widget.dart';
 
 class RegisterPageView extends GetView<RegisterPageController> {
-  //final ValueNotifier<bool> obscurePassword = ValueNotifier<bool>(true);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +18,9 @@ class RegisterPageView extends GetView<RegisterPageController> {
               LoginRegWidget.loginRegBg(), // Your existing background
               Positioned.fill(
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                      sigmaX: 10, sigmaY: 10), // Adjust the blur intensity
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                   child: Container(
-                    color: Colors.black.withOpacity(
-                        0.3), // Optional: add a semi-transparent overlay
+                    color: Colors.black.withOpacity(0.3),
                   ),
                 ),
               ),
@@ -37,11 +33,39 @@ class RegisterPageView extends GetView<RegisterPageController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // Profile image with option to select
+                  GestureDetector(
+                    onTap: () {
+                      _showImagePickerOptions(context);
+                    },
+                    child: Obx(() {
+                      return CircleAvatar(
+                        radius: 50,
+                        child: ClipOval(
+                          child: controller.profileImagePath.value.isNotEmpty
+                              ? Image.file(
+                                  File(controller.profileImagePath.value),
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  controller.defaultProfileImage,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 20),
+
                   // Register text title
                   LoginRegWidget.loginRegTxt("R e g i s t e r"),
                   SizedBox(height: 40),
 
-                  //User name field
+                  // User name field
                   LoginRegWidget.loginRegEmailFormfield(
                     controller: controller.nameController,
                     labelText: "User name",
@@ -75,6 +99,44 @@ class RegisterPageView extends GetView<RegisterPageController> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Show image picker options (Gallery or Camera)
+  void _showImagePickerOptions(BuildContext context) {
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text("Take a Photo"),
+              onTap: () {
+                Get.back();
+                controller.pickImageFromCamera();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text("Choose from Gallery"),
+              onTap: () {
+                Get.back();
+                controller.pickImageFromGallery();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.close),
+              title: Text("Cancel"),
+              onTap: () => Get.back(),
+            ),
+          ],
+        ),
       ),
     );
   }
