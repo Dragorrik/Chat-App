@@ -130,11 +130,14 @@ class RegisterPageController extends GetxController {
         await homeController.saveProfileImage(user.uid, imagePath);
         homeController.fetchUsers();
 
-        Get.snackbar("Registration Successful", "Enjoy your chat.");
+        Get.snackbar("Registration Successful", "Enjoy your chat.",
+            colorText: Colors.white);
+        Get.offAllNamed('/home');
         return user;
       }
     } catch (e) {
-      Get.snackbar("Registration Failed", e.toString());
+      Get.snackbar("Registration Failed", e.toString(),
+          colorText: Colors.white);
       print("Error during registration: $e");
     }
     return null;

@@ -1,15 +1,17 @@
 import 'package:get/get.dart';
-import 'package:task_type_project/app/modules/splash_screen/bindings/splash_screen_binding.dart';
-import 'package:task_type_project/app/modules/splash_screen/views/splash_screen_view.dart';
 
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
+import '../modules/get_started_screen/bindings/get_started_screen_binding.dart';
+import '../modules/get_started_screen/views/get_started_screen_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login_page/bindings/login_page_binding.dart';
 import '../modules/login_page/views/login_page_view.dart';
 import '../modules/register_page/bindings/register_page_binding.dart';
 import '../modules/register_page/views/register_page_view.dart';
+import '../modules/splash_screen/bindings/splash_screen_binding.dart';
+import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/startup_binding.dart';
 import '../modules/startup_screen.dart';
 
@@ -52,6 +54,11 @@ class AppPages {
       name: _Paths.SPLASH_SCREEN,
       page: () => SplashScreenView(),
       binding: SplashScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.GET_STARTED_SCREEN,
+      page: () => GetStartedScreenView(),
+      binding: GetStartedScreenBinding(),
     ),
   ];
 }

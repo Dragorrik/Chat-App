@@ -94,7 +94,7 @@ class LoginRegWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.teal[400],
+          color: Colors.deepPurple,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(0),
             bottomLeft: Radius.circular(0),
@@ -113,11 +113,25 @@ class LoginRegWidget {
   }
 
   static Widget createAccountTxt() {
-    return TextButton(
-      onPressed: () => Get.toNamed('/register'),
-      child: Text(
-        "Create an Account",
-        style: TextStyle(fontSize: 16, color: Colors.white),
+    return InkWell(
+      onTap: () {
+        Get.toNamed('/register');
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.deepPurple,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(15),
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(0),
+            topLeft: Radius.circular(0),
+          ),
+        ),
+        child: Text(
+          "Create an Account",
+          style: TextStyle(fontSize: 16, color: Colors.white),
+        ),
       ),
     );
   }

@@ -8,17 +8,20 @@ class ChatView extends GetView<ChatController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: const Color(0XFF1D1D1D),
       appBar: AppBar(
         title: Text(
           controller.userName.isEmpty ? "Chat" : controller.userName,
           style: const TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.teal[600],
+        backgroundColor: Colors.deepPurple,
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 8,
+          ),
           // Chat Messages
           Expanded(
             child: Obx(() {
@@ -26,7 +29,7 @@ class ChatView extends GetView<ChatController> {
                 return Center(
                   child: Text(
                     "No messages yet.",
-                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 );
               }
@@ -46,7 +49,7 @@ class ChatView extends GetView<ChatController> {
                       margin: const EdgeInsets.symmetric(
                           vertical: 5, horizontal: 10),
                       decoration: BoxDecoration(
-                        color: isMine ? Colors.teal[600] : Colors.grey[300],
+                        color: isMine ? Colors.deepPurple : Colors.white,
                         borderRadius: isMine
                             ? const BorderRadius.only(
                                 topLeft: Radius.circular(15),
@@ -60,7 +63,7 @@ class ChatView extends GetView<ChatController> {
                               ),
                         border: Border.all(
                           width: 1.5,
-                          color: isMine ? Colors.white : Colors.grey[700]!,
+                          color: isMine ? Colors.deepPurple : Colors.white,
                         ),
                       ),
                       child: Text(
@@ -76,36 +79,45 @@ class ChatView extends GetView<ChatController> {
             }),
           ),
           // Message Input
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: messageController,
-                    decoration: InputDecoration(
-                      hintText: "Type a message",
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none,
+          Container(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 191, 164, 236),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.phone, color: Colors.deepPurple),
+                    onPressed: () {},
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: messageController,
+                      decoration: InputDecoration(
+                        hintText: "Type a message",
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 10),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send, color: Colors.teal),
-                  onPressed: () {
-                    if (messageController.text.trim().isNotEmpty) {
-                      controller.sendMessage(messageController.text.trim());
-                      messageController.clear();
-                    }
-                  },
-                ),
-              ],
+                  IconButton(
+                    icon: const Icon(Icons.send, color: Colors.deepPurple),
+                    onPressed: () {
+                      if (messageController.text.trim().isNotEmpty) {
+                        controller.sendMessage(messageController.text.trim());
+                        messageController.clear();
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],

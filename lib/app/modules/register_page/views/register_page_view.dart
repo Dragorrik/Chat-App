@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_type_project/app/modules/register_page/controllers/register_page_controller.dart';
@@ -9,96 +8,78 @@ class RegisterPageView extends GetView<RegisterPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Gradient background
-          LoginRegWidget.loginRegBg(),
-          Stack(
+      backgroundColor: const Color(0XFF1D1D1D),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              LoginRegWidget.loginRegBg(), // Your existing background
-              Positioned.fill(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Container(
-                    color: Colors.black.withOpacity(0.3),
-                  ),
-                ),
+              // Profile image with option to select
+              GestureDetector(
+                onTap: () {
+                  _showImagePickerOptions(context);
+                },
+                child: Obx(() {
+                  return CircleAvatar(
+                    radius: 50,
+                    child: ClipOval(
+                      child: controller.profileImagePath.value.isNotEmpty
+                          ? Image.file(
+                              File(controller.profileImagePath.value),
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              controller.defaultProfileImage,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                  );
+                }),
               ),
+              SizedBox(height: 20),
+
+              // Register text title
+              LoginRegWidget.loginRegTxt("R e g i s t e r"),
+              SizedBox(height: 40),
+
+              // User name field
+              LoginRegWidget.loginRegEmailFormfield(
+                controller: controller.nameController,
+                labelText: "User name",
+                hintText: "Enter your name",
+              ),
+              SizedBox(height: 20),
+
+              // Email field
+              LoginRegWidget.loginRegEmailFormfield(
+                controller: controller.emailController,
+                labelText: "Email",
+                hintText: "Enter your email",
+              ),
+              SizedBox(height: 20),
+
+              // Password field
+              LoginRegWidget.loginRegPassFormfield(
+                controller: controller.passwordController,
+                labelText: "Password",
+                hintText: "Create your password",
+                obscureTextNotifier: ValueNotifier(false),
+              ),
+              SizedBox(height: 20),
+
+              // Register button
+              LoginRegWidget.loginRegButton("Register", () {
+                controller.register();
+              }),
             ],
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Profile image with option to select
-                  GestureDetector(
-                    onTap: () {
-                      _showImagePickerOptions(context);
-                    },
-                    child: Obx(() {
-                      return CircleAvatar(
-                        radius: 50,
-                        child: ClipOval(
-                          child: controller.profileImagePath.value.isNotEmpty
-                              ? Image.file(
-                                  File(controller.profileImagePath.value),
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  controller.defaultProfileImage,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                      );
-                    }),
-                  ),
-                  SizedBox(height: 20),
-
-                  // Register text title
-                  LoginRegWidget.loginRegTxt("R e g i s t e r"),
-                  SizedBox(height: 40),
-
-                  // User name field
-                  LoginRegWidget.loginRegEmailFormfield(
-                    controller: controller.nameController,
-                    labelText: "User name",
-                    hintText: "Enter your name",
-                  ),
-                  SizedBox(height: 20),
-
-                  // Email field
-                  LoginRegWidget.loginRegEmailFormfield(
-                    controller: controller.emailController,
-                    labelText: "Email",
-                    hintText: "Enter your email",
-                  ),
-                  SizedBox(height: 20),
-
-                  // Password field
-                  LoginRegWidget.loginRegPassFormfield(
-                    controller: controller.passwordController,
-                    labelText: "Password",
-                    hintText: "Create your password",
-                    obscureTextNotifier: ValueNotifier(false),
-                  ),
-                  SizedBox(height: 20),
-
-                  // Register button
-                  LoginRegWidget.loginRegButton("Register", () {
-                    controller.register();
-                  }),
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

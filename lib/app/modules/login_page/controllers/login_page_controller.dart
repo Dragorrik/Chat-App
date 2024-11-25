@@ -49,12 +49,15 @@ class LoginPageController extends GetxController {
         }
         storage.write(
             'userEmail', emailController.text); // Save email when logging in
-        storage.write('isLoggedIn', true); // Save login status
-        //Get.offAllNamed('/home');
+        storage.write('isLoggedIn', true);
+        // Save login status
+        Get.snackbar("Login Successful", "Enjoy your day.",
+            colorText: Colors.white);
+        Get.offAllNamed('/home');
       }
       return user;
     } catch (e) {
-      Get.snackbar("Login failed", e.toString());
+      Get.snackbar("Login failed", e.toString(), colorText: Colors.white);
     }
     return null;
   }

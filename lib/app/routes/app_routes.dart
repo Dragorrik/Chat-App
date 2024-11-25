@@ -9,6 +9,7 @@ abstract class Routes {
   static const REGISTER_PAGE = _Paths.REGISTER_PAGE;
   static const CHAT = _Paths.CHAT;
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
+  static const GET_STARTED_SCREEN = _Paths.GET_STARTED_SCREEN;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const REGISTER_PAGE = '/register';
   static const CHAT = '/chat';
   static const SPLASH_SCREEN = '/splash-screen';
+  static const GET_STARTED_SCREEN = '/get-started-screen';
 }

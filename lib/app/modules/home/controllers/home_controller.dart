@@ -27,6 +27,7 @@ class HomeController extends GetxController {
     await _initHive();
     _loadCurrentUserName();
     fetchUsers();
+    listenToUsers();
   }
 
   Future<void> _initHive() async {
@@ -79,6 +80,20 @@ class HomeController extends GetxController {
     } catch (e) {
       Get.snackbar("Error", "Failed to fetch users: $e");
     }
+  }
+
+  // Firestore listener for real-time updates
+  void listenToUsers() {
+    _firestore.collection('users').snapshots().listen((snapshot) {
+      userList.clear(); // Clear existing data
+      for (var doc in snapshot.docs) {
+        userList.add({
+          'uid': doc['uid'], // User ID
+          'userName': doc['userName'], // Name
+          'email': doc['email'], //email
+        });
+      }
+    });
   }
 
   Future<void> saveProfileImage(String uid, String imagePath) async {

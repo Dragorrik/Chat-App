@@ -11,22 +11,19 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[100],
+      backgroundColor: const Color(0XFF1D1D1D),
       appBar: AppBar(
-        backgroundColor: Colors.teal[100],
+        backgroundColor: Colors.deepPurple,
         elevation: 0,
         title: Obx(
           () => Text(
-            "Welcome, ${controller.userName.value.split(' ').first}",
-            style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
+            controller.userName.value.split(' ').first,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout,
-                color: themeController.isDarkTheme.value
-                    ? Colors.white
-                    : Colors.black),
+            icon: Icon(Icons.logout, color: Colors.white),
             onPressed: () {
               Get.offAllNamed('/login');
             },
@@ -39,7 +36,7 @@ class HomeView extends GetView<HomeController> {
             return Center(
               child: Text(
                 "No users available.",
-                style: TextStyle(color: Colors.teal[800], fontSize: 18),
+                style: TextStyle(color: Colors.deepPurple, fontSize: 18),
               ),
             );
           }
@@ -75,14 +72,15 @@ class HomeView extends GetView<HomeController> {
                 ),
                 title: Text(
                   user['userName'] ?? "Unknown User",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 subtitle: Text(
                   user['email'] ?? "No Email",
-                  style: TextStyle(color: Colors.black54),
+                  style: TextStyle(color: Colors.white70),
                 ),
                 onTap: () {
-                  Get.toNamed('/chat', arguments: {
+                  Get.offAllNamed('/chat', arguments: {
                     'uid': user['uid'],
                     'userName': user['userName'],
                     'email': user['email'],
