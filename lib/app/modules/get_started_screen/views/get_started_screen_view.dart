@@ -11,30 +11,14 @@ class GetStartedScreenView extends GetView<GetStartedScreenController> {
     return Scaffold(
       backgroundColor: const Color(0XFF1D1D1D),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
+        child: Container(
+          //padding: const EdgeInsets.all(15),
+          margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset('assets/images/com.png'),
-              // Container(
-              //   height: MediaQuery.of(context).size.height * 0.05,
-              //   width: MediaQuery.of(context).size.width * 0.6,
-              //   decoration: BoxDecoration(
-              //     color: const Color.fromARGB(255, 150, 120, 233),
-              //     borderRadius: BorderRadius.circular(20),
-              //   ),
-              //   child: Center(
-              //     child: Text(
-              //       "Welcome, to my chatting platform",
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 13,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               SizedBox(
                 height: 8,
               ),

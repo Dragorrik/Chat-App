@@ -9,6 +9,8 @@ import 'package:speech_to_text/speech_to_text.dart';
 class HomeController extends GetxController {
   final storage = GetStorage();
   var userName = ''.obs;
+  var userEmail = ''.obs;
+  var userImage = ''.obs;
   RxBool startRecord = false.obs;
   final SpeechToText speechToText = SpeechToText();
   RxBool isAvailable = false.obs;
@@ -25,7 +27,7 @@ class HomeController extends GetxController {
   void onInit() async {
     super.onInit();
     await _initHive();
-    _loadCurrentUserName();
+    _loadCurrentUserNameAndEmail();
     fetchUsers();
     listenToUsers();
   }
@@ -36,7 +38,7 @@ class HomeController extends GetxController {
     profileImageBox = await Hive.openBox('profileImages');
   }
 
-  void _loadCurrentUserName() async {
+  void _loadCurrentUserNameAndEmail() async {
     final email = storage.read('userEmail') ?? '';
     final currentUser = _auth.currentUser;
 
@@ -45,6 +47,16 @@ class HomeController extends GetxController {
           await _firestore.collection('users').doc(currentUser.uid).get();
       if (userDoc.exists) {
         userName.value = userDoc.data()?['userName'] ?? email.split('@').first;
+        userEmail.value = userDoc.data()?['email'];
+
+        // Load profile image from Hive or fallback to Firestore
+        // final localImage = getProfileImage(currentUser.uid);
+        // if (localImage != null && localImage.isNotEmpty) {
+        //   userImage.value = localImage;
+        // }
+        // else {
+        //   userImage.value = 'assets/images/default_profile.jpg';
+        // }
       }
     } else {
       userName.value = email.split('@').first;
@@ -57,6 +69,7 @@ class HomeController extends GetxController {
       if (currentUser == null) return;
 
       final snapshot = await _firestore.collection('users').get();
+      //userImage.value = getProfileImage(currentUser.uid)!;
 
       final users = snapshot.docs
           .map((doc) {
@@ -87,6 +100,9 @@ class HomeController extends GetxController {
     _firestore.collection('users').snapshots().listen((snapshot) {
       userList.clear(); // Clear existing data
       for (var doc in snapshot.docs) {
+        if (doc['uid'] == _auth.currentUser?.uid) {
+          continue;
+        }
         userList.add({
           'uid': doc['uid'], // User ID
           'userName': doc['userName'], // Name
