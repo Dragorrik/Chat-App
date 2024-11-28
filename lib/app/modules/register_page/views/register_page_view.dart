@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_type_project/app/modules/register_page/controllers/register_page_controller.dart';
 import 'package:task_type_project/app/widgets/login_reg_widget.dart';
+import 'package:task_type_project/constants/avatars.dart';
 
 class RegisterPageView extends GetView<RegisterPageController> {
   @override
@@ -19,28 +19,21 @@ class RegisterPageView extends GetView<RegisterPageController> {
               // Profile image with option to select
               GestureDetector(
                 onTap: () {
-                  _showImagePickerOptions(context);
+                  Get.toNamed('/avatar-page');
                 },
-                child: Obx(() {
-                  return CircleAvatar(
-                    radius: 50,
-                    child: ClipOval(
-                      child: controller.profileImagePath.value.isNotEmpty
-                          ? Image.file(
-                              File(controller.profileImagePath.value),
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              controller.defaultProfileImage,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
+                child: CircleAvatar(
+                  radius: 50,
+                  child: ClipOval(
+                    child: Obx(
+                      () => Image.asset(
+                        avatars[controller.profileImageIndex.value],
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  );
-                }),
+                  ),
+                ),
               ),
               SizedBox(height: 20),
 
@@ -79,44 +72,6 @@ class RegisterPageView extends GetView<RegisterPageController> {
               }),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  // Show image picker options (Gallery or Camera)
-  void _showImagePickerOptions(BuildContext context) {
-    Get.bottomSheet(
-      Container(
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Wrap(
-          children: [
-            ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text("Take a Photo"),
-              onTap: () {
-                Get.back();
-                controller.pickImageFromCamera();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text("Choose from Gallery"),
-              onTap: () {
-                Get.back();
-                controller.pickImageFromGallery();
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.close),
-              title: Text("Cancel"),
-              onTap: () => Get.back(),
-            ),
-          ],
         ),
       ),
     );

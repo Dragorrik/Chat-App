@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_type_project/app/modules/login_page/controllers/login_page_controller.dart';
+import 'package:task_type_project/constants/avatars.dart';
 import '../controllers/home_controller.dart';
-import 'package:task_type_project/app/modules/theme_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   //final ThemeController themeController = Get.find();
@@ -33,21 +33,20 @@ class HomeView extends GetView<HomeController> {
                       CircleAvatar(
                         radius: 25,
                         child: ClipOval(
-                          child: controller.userImage.value.isNotEmpty
-                              ? Image.file(
-                                  File(controller.userImage.value),
-                                  height: 100,
-                                  width: 100,
-                                  fit: BoxFit.cover,
-                                )
-                              : Container(
-                                  color: Colors.grey,
-                                  child: Icon(
-                                    Icons.person,
-                                    size: 50,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                          child: Image.asset(
+                            avatars[controller.userImageIndex.value],
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
+                          ),
+                          // : Container(
+                          //     color: Colors.grey,
+                          //     child: Icon(
+                          //       Icons.person,
+                          //       size: 50,
+                          //       color: Colors.white,
+                          //     ),
+                          //   ),
                         ),
                       ),
                       SizedBox(height: 10),
@@ -105,30 +104,17 @@ class HomeView extends GetView<HomeController> {
             itemCount: controller.userList.length,
             itemBuilder: (context, index) {
               final user = controller.userList[index];
-              //final profileImage = user['profileImage'];
 
               return ListTile(
                 leading: CircleAvatar(
                   radius: 25,
                   child: ClipOval(
-                    child: controller.getProfileImage(user['uid']) != null
-                        ? Image.file(
-                            File(controller.getProfileImage(user['uid'])!),
-                            height: 100,
-                            width: 100,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/images/default_profile.jpg',
-                            height: 100,
-                            width: 100,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  // backgroundImage: profileImage != null
-                  //     ? FileImage(File(profileImage))
-                  //     : AssetImage('assets/images/default_avatar.png')
-                  //         as ImageProvider,
+                      child: Image.asset(
+                    avatars[user['profileImageIndex']],
+                    height: 100,
+                    width: 100,
+                    fit: BoxFit.cover,
+                  )),
                 ),
                 title: Text(
                   user['userName'] ?? "Unknown User",
