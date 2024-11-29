@@ -16,12 +16,20 @@ class ChatView extends GetView<ChatController> {
         ),
         centerTitle: true,
         backgroundColor: Colors.deepPurple,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.phone, color: Colors.white),
+            onPressed: controller.initiateAudioCall,
+          ),
+          IconButton(
+            icon: const Icon(Icons.video_call, color: Colors.white),
+            onPressed: controller.initiateVideoCall,
+          ),
+        ],
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           // Chat Messages
           Expanded(
             child: Obx(() {
@@ -29,7 +37,7 @@ class ChatView extends GetView<ChatController> {
                 return Center(
                   child: Text(
                     "No messages yet.",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: const TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 );
               }
@@ -80,17 +88,13 @@ class ChatView extends GetView<ChatController> {
           ),
           // Message Input
           Container(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 191, 164, 236),
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 191, 164, 236),
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(Icons.phone, color: Colors.deepPurple),
-                    onPressed: () {},
-                  ),
                   Expanded(
                     child: TextField(
                       controller: messageController,

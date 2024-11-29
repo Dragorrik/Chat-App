@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 class ChatController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -71,5 +71,25 @@ class ChatController extends GetxController {
     } catch (e) {
       Get.snackbar('Error', 'Failed to send message: $e');
     }
+  }
+
+  void initiateAudioCall() {
+    Get.toNamed(
+      '/call',
+      arguments: {
+        'channelId': chatId, // Unique channel ID
+        'isVideo': false, // Audio call
+      },
+    );
+  }
+
+  void initiateVideoCall() {
+    Get.toNamed(
+      '/call',
+      arguments: {
+        'channelId': chatId, // Unique channel ID
+        'isVideo': true, // Video call
+      },
+    );
   }
 }

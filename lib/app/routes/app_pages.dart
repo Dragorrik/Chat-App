@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/avatar_page/bindings/avatar_page_binding.dart';
 import '../modules/avatar_page/views/avatar_page_view.dart';
+import '../modules/call/bindings/call_binding.dart';
+import '../modules/call/views/call_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
 import '../modules/get_started_screen/bindings/get_started_screen_binding.dart';
@@ -66,6 +68,11 @@ class AppPages {
       name: _Paths.AVATAR_PAGE,
       page: () => const AvatarPageView(),
       binding: AvatarPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.CALL,
+      page: () => const CallView(),
+      binding: CallBinding(),
     ),
   ];
 }
