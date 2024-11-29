@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_type_project/app/modules/register_page/controllers/register_page_controller.dart';
-import 'package:task_type_project/app/routes/app_pages.dart';
 import 'package:task_type_project/constants/avatars.dart';
 
 import '../controllers/avatar_page_controller.dart';

@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  agora_rtc_engine: ^6.3.2
   animated_text_kit: ^4.2.2
   avatar_glow: ^3.0.1
   
@@ -46,6 +47,7 @@ dependencies:
   image: ^4.3.0
   image_picker: ^1.1.2
   path_provider: ^2.1.5
+  permission_handler: ^11.3.1
   speech_to_text: ^7.0.0
 
 dev_dependencies:
