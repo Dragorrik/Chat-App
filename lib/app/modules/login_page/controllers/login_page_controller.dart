@@ -24,9 +24,6 @@ class LoginPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    // emailController.text = "gg@gmail.com";
-    // passwordController.text = "123456";
   }
 
   Future<User?> login() async {
@@ -51,7 +48,7 @@ class LoginPageController extends GetxController {
             'userEmail', emailController.text); // Save email when logging in
         storage.write('isLoggedIn', true);
         // Save login status
-        Get.snackbar("Login Successful", "Enjoy your day.",
+        Get.snackbar("Welcome, ${doc.data()?['userName']}", "Enjoy your day..",
             colorText: Colors.white);
         Get.offAllNamed('/home');
       }
