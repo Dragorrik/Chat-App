@@ -9,6 +9,14 @@
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.VIBRATE"/>
+
+<uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<!--for bring app to foreground from background in Android 10 -->
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
 <!-- The Agora SDK requires Bluetooth permissions in case users are using Bluetooth devices. -->
 <uses-permission android:name="android.permission.BLUETOOTH" />
 <!-- For Android 12 and above devices, the following permission is also required. -->

@@ -16,8 +16,6 @@ import '../modules/register_page/bindings/register_page_binding.dart';
 import '../modules/register_page/views/register_page_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
-import '../modules/startup_binding.dart';
-import '../modules/startup_screen.dart';
 
 //import 'package:flutter/material.dart';
 
@@ -33,11 +31,6 @@ class AppPages {
       name: _Paths.HOME,
       page: () => HomeView(),
       binding: HomeBinding(),
-    ),
-    GetPage(
-      name: Routes.STARTUP,
-      page: () => StartupScreen(), // Empty page as the controller will redirect
-      binding: StartupBinding(), // Attach StartupBinding
     ),
     GetPage(
       name: _Paths.LOGIN_PAGE,
