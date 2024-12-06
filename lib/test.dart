@@ -314,3 +314,105 @@ class PrimaryButton extends StatelessWidget {
 //       ),
 //     );
 //   }
+
+
+
+// Drawer(
+//         child: Container(
+//           color: Color(0XFF1D1D1D),
+//           child: Column(
+//             children: [
+//               // Profile and Settings
+//               Obx(
+//                 () => Container(
+//                   height: MediaQuery.of(context).size.height * 0.25,
+//                   width: double.infinity,
+//                   padding: EdgeInsets.all(15),
+//                   decoration: BoxDecoration(
+//                     color: Colors.deepPurple,
+//                     borderRadius: BorderRadius.only(
+//                       bottomLeft: Radius.circular(15),
+//                       bottomRight: Radius.circular(15),
+//                     ),
+//                   ),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.center,
+//                     children: [
+//                       CircleAvatar(
+//                         radius: 30,
+//                         child: ClipOval(
+//                           child: Image.asset(
+//                             avatars[controller.userImageIndex.value],
+//                             height: 100,
+//                             width: 100,
+//                             fit: BoxFit.cover,
+//                           ),
+//                         ),
+//                       ),
+//                       SizedBox(height: 8),
+//                       Text(
+//                         controller.userName.value,
+//                         style: TextStyle(color: Colors.white, fontSize: 18),
+//                       ),
+//                       Text(
+//                         controller.userEmail.value,
+//                         style: TextStyle(color: Colors.grey, fontSize: 14),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//               ListTile(
+//                 leading: Icon(Icons.settings, color: Colors.white),
+//                 title: Text("Settings", style: TextStyle(color: Colors.white)),
+//                 onTap: () {
+//                   // Navigate to settings
+//                 },
+//               ),
+//               ListTile(
+//                 leading: Icon(Icons.account_circle, color: Colors.white),
+//                 title: Text("Profile", style: TextStyle(color: Colors.white)),
+//                 onTap: () {
+//                   // Navigate to profile
+//                 },
+//               ),
+//               Spacer(), // Pushes the logout to the bottom
+//               GestureDetector(
+//                 onTap: () {
+//                   _loginPageController.signOut();
+//                 },
+//                 child: Container(
+//                   padding: EdgeInsets.only(
+//                     top: 10,
+//                     bottom: 10,
+//                     right: 10,
+//                     left: 17,
+//                   ),
+//                   height: MediaQuery.of(context).size.height * 0.1,
+//                   width: double.infinity,
+//                   decoration: BoxDecoration(
+//                     color: Colors.deepPurple,
+//                     borderRadius: BorderRadius.only(
+//                       topLeft: Radius.circular(15),
+//                       topRight: Radius.circular(15),
+//                     ),
+//                   ),
+//                   child: Row(
+//                     children: [
+//                       Icon(Icons.logout, color: Colors.white),
+//                       SizedBox(
+//                         width: 14,
+//                       ),
+//                       Text("Logout",
+//                           style: TextStyle(
+//                             color: Colors.white,
+//                             fontSize: 16,
+//                           )),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),

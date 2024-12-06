@@ -9,6 +9,8 @@ class HomeController extends GetxController {
   var userName = ''.obs;
   var userEmail = ''.obs;
   var userImageIndex = 6.obs;
+  var userOccupation = ''.obs;
+  var userPhoneNo = ''.obs;
   RxBool startRecord = false.obs;
   final SpeechToText speechToText = SpeechToText();
   RxBool isAvailable = false.obs;
@@ -39,6 +41,8 @@ class HomeController extends GetxController {
         userName.value = userDoc.data()?['userName'] ?? email.split('@').first;
         userEmail.value = userDoc.data()?['email'];
         userImageIndex.value = userDoc.data()?['profileImageIndex'];
+        userOccupation.value = userDoc.data()?['occupation'];
+        userPhoneNo.value = userDoc.data()?['phoneNo'];
       }
     } else {
       userName.value = email.split('@').first;

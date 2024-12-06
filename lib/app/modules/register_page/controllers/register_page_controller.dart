@@ -7,6 +7,9 @@ class RegisterPageController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
+  final occupationController = TextEditingController();
+  final phoneNoController = TextEditingController();
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -51,12 +54,14 @@ class RegisterPageController extends GetxController {
         await _firestore.collection('users').doc(user.uid).set({
           'uid': user.uid,
           'email': user.email,
+          'occupation': occupationController.text.trim(),
+          'phoneNo': phoneNoController.text.trim(),
           'userName': nameController.text.trim(),
           'profileImageIndex': imageIndex,
         });
 
         Get.snackbar("Registration Successful",
-            "Enjoy your chat ${nameController.text.trim()}.",
+            "Enjoy your chat, ${nameController.text.trim()}.",
             colorText: Colors.white);
         Get.offAllNamed('/home');
         return user;

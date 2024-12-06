@@ -15,8 +15,6 @@ void main() async {
 
   await GetStorage.init();
   //Get.put(ThemeController());
-  //Get.put(HomeController());
-  //Get.put(StartupController());
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
@@ -35,6 +33,9 @@ void main() async {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       initialBinding: SplashScreenBinding(),
+
+      defaultTransition: Transition.leftToRightWithFade,
+      transitionDuration: const Duration(milliseconds: 300),
     ),
   );
 }

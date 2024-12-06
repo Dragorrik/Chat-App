@@ -4,13 +4,13 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
 class CallController extends GetxController {
   late RtcEngine agoraEngine; // Agora RTC Engine instance
-  String channelName = 'Chatitide'; // Channel Name
+  String channelName = 'chatitide'; // Channel Name
   late bool isVideoCall; // Whether it's a video or audio call
 
   final String appId =
       '47f5dc6037054d6da6c99fb0dd227303'; // Replace with your Agora App ID
   final String token =
-      '007eJxTYBCQFb7PK9HYusKr5MttQ8+tftErnePuPpoaeqTbOfmSUp0Cg4l5mmlKspmBsbmBqUmKWUqiWbKlZVqSQUqKkZG5sYHx/q/e6Q2BjAzfCm6wMjJAIIjPyeCckViSWZKZksrAAACqOCFs';
+      "007eJxTYNjpUmy9/eQWyzNHFTKaxV1XvVqVOedX3BXPu0rHt9laR/5VYDAxTzNNSTYzMDY3MDVJMUtJNEu2tExLMkhJMTIyNzYwdswPSm8IZGTQPpnDxMgAgSA+J0NyRmJJZklmSioDAwBPBCIP";
   RxBool isJoined = false.obs;
   RxBool isMuted = false.obs;
   Rxn<int> remoteUid = Rxn<int>(); // Remote user UID (null if no remote user)
