@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 class LoginPageController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  RxString userPassword = "".obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final storage = GetStorage();

@@ -9,7 +9,7 @@ class GetStartedScreenView extends GetView<GetStartedScreenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF1D1D1D),
+      backgroundColor: const Color.fromARGB(255, 219, 219, 219),
       body: SafeArea(
         child: Container(
           //padding: const EdgeInsets.all(15),

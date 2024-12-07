@@ -7,7 +7,7 @@ class LoginPageView extends GetView<LoginPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF1D1D1D),
+      backgroundColor: const Color.fromARGB(255, 219, 219, 219),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -20,17 +20,25 @@ class LoginPageView extends GetView<LoginPageController> {
               SizedBox(height: 40),
 
               // Username / Email field
+              Text("Email",
+                  style: TextStyle(
+                    color: const Color(0XFF1D1D1D),
+                    fontWeight: FontWeight.bold,
+                  )),
               LoginRegWidget.loginRegEmailFormfield(
                 controller: controller.emailController,
-                labelText: "Email",
                 hintText: "Enter your email",
               ),
               SizedBox(height: 20),
 
               // Password field
+              Text("Password",
+                  style: TextStyle(
+                    color: const Color(0XFF1D1D1D),
+                    fontWeight: FontWeight.bold,
+                  )),
               LoginRegWidget.loginRegPassFormfield(
                   controller: controller.passwordController,
-                  labelText: "Password",
                   hintText: "Enter your password",
                   obscureTextNotifier: controller.obscurePassword),
               SizedBox(height: 20),

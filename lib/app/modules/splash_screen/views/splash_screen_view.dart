@@ -8,7 +8,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
   Widget build(BuildContext context) {
     Get.put(SplashScreenController());
     return Scaffold(
-      backgroundColor: const Color(0XFF1D1D1D),
+      backgroundColor: const Color.fromARGB(255, 219, 219, 219),
       body: Center(
         child: AnimatedTextKit(
           animatedTexts: [

@@ -8,7 +8,7 @@ class RegisterPageView extends GetView<RegisterPageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF1D1D1D),
+      backgroundColor: const Color.fromARGB(255, 219, 219, 219),
       body: Container(
         padding: EdgeInsets.all(20),
         //height: Get.height * 0.7,
@@ -18,6 +18,9 @@ class RegisterPageView extends GetView<RegisterPageController> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Register text title
+                LoginRegWidget.loginRegTxt("R e g i s t e r"),
+                SizedBox(height: 30),
                 // Profile image with option to select
                 GestureDetector(
                   onTap: () {
@@ -37,48 +40,71 @@ class RegisterPageView extends GetView<RegisterPageController> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-
-                // Register text title
-                LoginRegWidget.loginRegTxt("R e g i s t e r"),
-                SizedBox(height: 40),
-
+                SizedBox(height: 10),
+                Center(
+                  child: Text("Choose your avatar",
+                      style: TextStyle(
+                        color: const Color(0XFF1D1D1D),
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                SizedBox(height: 30),
                 // User name field
+                Text("User name",
+                    style: TextStyle(
+                      color: const Color(0XFF1D1D1D),
+                      fontWeight: FontWeight.bold,
+                    )),
                 LoginRegWidget.loginRegEmailFormfield(
                   controller: controller.nameController,
-                  labelText: "User name",
                   hintText: "Enter your name",
                 ),
                 SizedBox(height: 20),
 
                 // Email field
+                Text("Email",
+                    style: TextStyle(
+                      color: const Color(0XFF1D1D1D),
+                      fontWeight: FontWeight.bold,
+                    )),
                 LoginRegWidget.loginRegEmailFormfield(
                   controller: controller.emailController,
-                  labelText: "Email",
                   hintText: "Enter your email",
                 ),
                 SizedBox(height: 20),
 
                 // Occupation field
+                Text("Occupation",
+                    style: TextStyle(
+                      color: const Color(0XFF1D1D1D),
+                      fontWeight: FontWeight.bold,
+                    )),
                 LoginRegWidget.loginRegEmailFormfield(
                   controller: controller.occupationController,
-                  labelText: "Occupation",
                   hintText: "What's your occupation?",
                 ),
                 SizedBox(height: 20),
 
                 // Phone no field
+                Text("Phone number",
+                    style: TextStyle(
+                      color: const Color(0XFF1D1D1D),
+                      fontWeight: FontWeight.bold,
+                    )),
                 LoginRegWidget.loginRegEmailFormfield(
                   controller: controller.phoneNoController,
-                  labelText: "Phone number",
                   hintText: "Write down your phone number",
                 ),
                 SizedBox(height: 20),
 
                 // Password field
+                Text("Password",
+                    style: TextStyle(
+                      color: const Color(0XFF1D1D1D),
+                      fontWeight: FontWeight.bold,
+                    )),
                 LoginRegWidget.loginRegPassFormfield(
                   controller: controller.passwordController,
-                  labelText: "Password",
                   hintText: "Create your password",
                   obscureTextNotifier: ValueNotifier(false),
                 ),

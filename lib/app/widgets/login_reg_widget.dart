@@ -29,7 +29,6 @@ class LoginRegWidget {
 
   static Widget loginRegEmailFormfield({
     required TextEditingController controller,
-    required String labelText,
     required String hintText,
   }) {
     return TextFormField(
@@ -38,7 +37,6 @@ class LoginRegWidget {
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.auto,
         fillColor: Colors.white.withOpacity(0.8),
-        labelText: labelText,
         hintText: hintText,
         labelStyle: TextStyle(color: Colors.grey[700]),
         border: OutlineInputBorder(
@@ -51,7 +49,6 @@ class LoginRegWidget {
 
   static Widget loginRegPassFormfield({
     required TextEditingController controller,
-    required String labelText,
     required String hintText,
     required ValueNotifier<bool> obscureTextNotifier,
   }) {
@@ -65,7 +62,6 @@ class LoginRegWidget {
             filled: true,
             floatingLabelBehavior: FloatingLabelBehavior.auto,
             fillColor: Colors.white.withOpacity(0.8),
-            labelText: labelText,
             hintText: hintText,
             labelStyle: TextStyle(color: Colors.grey[700]),
             border: OutlineInputBorder(

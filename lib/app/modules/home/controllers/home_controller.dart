@@ -94,4 +94,54 @@ class HomeController extends GetxController {
       }
     });
   }
+
+  Future<void> updateUsername(String newUsername) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      final userId = user?.uid;
+      // Update in Firebase or local database
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId) // Replace with the user's ID
+          .update({'userName': newUsername});
+
+      userName.value = newUsername; // Update local state
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to update username: $e');
+    }
+  }
+
+  Future<void> updateUserOccupation(String newUserOccupation) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      final userId = user?.uid;
+      // Update in Firebase or local database
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId) // Replace with the user's ID
+          .update({'occupation': newUserOccupation});
+
+      userOccupation.value = newUserOccupation; // Update local state
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to update userOccupation: $e');
+    }
+  }
+
+  Future<void> updateUserPassword(String newPassword) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      await user?.updatePassword(newPassword);
+
+      Get.snackbar(
+        'Success',
+        'Password updated successfully',
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to update password: $e',
+      );
+      print('Failed to update password: $e');
+    }
+  }
 }

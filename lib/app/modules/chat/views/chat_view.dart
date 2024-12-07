@@ -8,7 +8,7 @@ class ChatView extends GetView<ChatController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF1D1D1D),
+      backgroundColor: const Color.fromARGB(255, 219, 219, 219),
       appBar: AppBar(
         title: Text(
           controller.userName.isEmpty ? "Chat" : controller.userName,
@@ -89,7 +89,7 @@ class ChatView extends GetView<ChatController> {
           // Message Input
           Container(
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 191, 164, 236),
+              color: Colors.deepPurple,
             ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -112,7 +112,7 @@ class ChatView extends GetView<ChatController> {
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.send, color: Colors.deepPurple),
+                    icon: const Icon(Icons.send, color: Colors.white),
                     onPressed: () {
                       if (messageController.text.trim().isNotEmpty) {
                         controller.sendMessage(messageController.text.trim());
